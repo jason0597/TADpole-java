@@ -13,36 +13,29 @@ import java.util.List;
 
 public class Constants {
     static {
-        try {
-            keyx =      Hex.decodeHex("6FBB01F872CAF9C01834EEC04065EE53");
-            keyx_bigint=new BigInteger("6FBB01F872CAF9C01834EEC04065EE53",16);
-            C =         Hex.decodeHex("1FF9E9AAC5FE0408024591DC5D52768A");
-
-            cmac_keyx = Hex.decodeHex("B529221CDDB5DB5A1BF26EFF2041E875");
-        } catch (DecoderException e) {
-            e.printStackTrace();
-        }
+        keyx = new BigInteger("6FBB01F872CAF9C01834EEC04065EE53", 16);
+        F128 = new BigInteger("FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF", 16);
+        C = new BigInteger("1FF9E9AAC5FE0408024591DC5D52768A", 16);
+        cmac_keyx = new BigInteger("B529221CDDB5DB5A1BF26EFF2041E875", 16);
         byte[] keyY = new byte[16];
         File f = new File("movable.sed");
 
-        try(FileInputStream fis = new FileInputStream(f); BufferedInputStream bis = IOUtils.buffer(fis)) {
+        try (FileInputStream fis = new FileInputStream(f); BufferedInputStream bis = IOUtils.buffer(fis)) {
             bis.skip(0x110);
-            bis.read(keyY,0,0x10);
+            bis.read(keyY, 0, 0x10);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        keyy=keyY;
         System.out.println(Hex.encodeHexString(keyY));
-        keyy_bigint=new BigInteger(Hex.encodeHexString(keyY),16);
+        keyy = new BigInteger(Hex.encodeHexString(keyY), 16);
     }
-    public static byte[] keyx;
-    public static BigInteger keyx_bigint;
-    public static byte[] keyy; //movable.sed.
-    public static BigInteger keyy_bigint;
-    //public static byte[] F128;
-    public static byte[] C;
+
+    public static BigInteger keyx;
+    public static BigInteger keyy; //movable.sed.
+    public static BigInteger F128;
+    public static BigInteger C;
     //public static BigInteger C_bigint;
-    public static byte[] cmac_keyx;
+    public static BigInteger cmac_keyx;
     public static String default_dir = "decrypted_sections/";
     public static int BM = 0x20;
     public static int banner = 0x0;
@@ -58,7 +51,7 @@ public class Constants {
     public static int SAV = 0x0;
     public static int SAV_SIZE = 0x0;
 
-    public static String[] content_list = {"tmd","srl.nds","2.bin","3.bin","4.bin","5.bin","6.bin","7.bin","8.bin","public.sav","banner.sav"};
-    public static int content_sizelist = content_list.length;
+    public static String[] content_list = {"tmd", "srl.nds", "2.bin", "3.bin", "4.bin", "5.bin", "6.bin", "7.bin", "8.bin", "public.sav", "banner.sav"};
+    public static long[] content_sizelist = new long[content_list.length];
 
 }

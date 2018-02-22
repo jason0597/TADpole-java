@@ -28,5 +28,6 @@ hs_err_pid*
 build/
 movable.sed
 movable.sed.*
+*.bin
 src/main/resources/
 src/test/

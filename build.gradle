@@ -7,6 +7,12 @@ plugins {
 }
 mainClassName = "faith.elguadia.tadpool.start"
 
+runShadow{
+    if(project.hasProperty('testargs')) {
+        args Eval.me(testargs)
+    }
+}
+
 group 'faith.elguadia'
 version '1.0-SNAPSHOT'
 
@@ -29,4 +35,7 @@ dependencies {
 
     // https://mvnrepository.com/artifact/com.google.guava/guava
     compile group: 'com.google.guava', name: 'guava', version: '23.6-jre'
+    // https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk16', version: '1.46'
+
 }
