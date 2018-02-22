@@ -146,7 +146,7 @@ public class start {
         String[] hash = new String[13];
         List<String> footer_namelist = new ArrayList<>();
         footer_namelist.add("banner.bin");
-        footer_namelist.add("footer.bin");
+        footer_namelist.add("header.bin");
         Collections.addAll(footer_namelist, content_list);
         for (String s : content_list) {
             tmp = new File(default_dir + s);
