@@ -1,9 +1,11 @@
 
 plugins {
+    id 'java'
     id 'application'
     //id 'com.gorylenko.gradle-git-properties' version '1.4.17'
     id 'com.github.johnrengelman.shadow' version '2.0.1'
     id 'com.github.ksoichiro.build.info' version '0.2.0'
+    id 'com.palantir.git-version' version '0.10.1'
 }
 mainClassName = "faith.elguadia.tadpool.start"
 
@@ -14,9 +16,7 @@ runShadow{
 }
 
 group 'faith.elguadia'
-version '1.0-SNAPSHOT'
-
-apply plugin: 'java'
+version gitVersion()
 
 sourceCompatibility = 1.8
 
