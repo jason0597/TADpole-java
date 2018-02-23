@@ -49,8 +49,8 @@ public class start {
                 }
             } else if (args[1].equals("r")) {
                 try {
-                    signFooter();
                     fixHash(new File(default_dir + "header.bin"), new File(default_dir + "footer.bin"));
+                    signFooter();
                     rebuildTad(args[0]);
                 } catch (Exception e) {
                     e.printStackTrace();
