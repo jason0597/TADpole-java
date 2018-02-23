@@ -57,6 +57,13 @@ public class start {
                     e.printStackTrace();
                     // Empty.
                 }
+            } else {
+                System.out.println("TADpole-Java By Chromaryu: https://github.com/knight-ryu12");
+                System.out.println("in support of jason0594, saibotu, Kartik");
+                System.out.println("Usage: java -jar TADpole.jar <DSiware export.bin> <r/d>");
+                System.out.println("r = rebuild, d = dump");
+                System.exit(0);
+
             }
         }
     }

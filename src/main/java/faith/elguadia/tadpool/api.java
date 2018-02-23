@@ -22,7 +22,6 @@ import java.util.Arrays;
 import static faith.elguadia.tadpool.Constants.*;
 
 public class api {
-    private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
     private static BigInteger add_128(BigInteger a, BigInteger b){
         return a.add(b).and(F128);
     }

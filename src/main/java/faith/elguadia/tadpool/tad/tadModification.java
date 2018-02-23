@@ -48,13 +48,13 @@ public class tadModification {
                     System.out.println("Encrypting:" + s);
                     content = Files.readAllBytes(f.toPath());
                     bm = generateBlockMetadata(content); // 0x0+10 = AES MAC over SHA256(SHA256 of PlainData), 0x10+10 = IV (RandGen)
-                    System.arraycopy(bm, 0x10, iv, 0, iv.length); // bm -> IV
-                    System.out.println("L92IV:"+ Hex.encodeHexString(iv)); // is IV Okay?
+                    System.arraycopy(bm, 0x10, iv, 0, iv.length); // bm -> iv
+                    System.out.println("L92IV:"+ Hex.encodeHexString(iv)); // is IV Okay? (No way to check)
                     content = api.encryptMessage(content, key, iv); // Encrypt.
                     System.out.println("Length:"+content.length); // contentLength
                     section = new byte[content.length + bm.length]; // section is content+bm
                     System.out.println("New Length:"+section.length);
-                    if(section.length == content.length+0x20){ // checing.
+                    if(section.length == content.length+0x20){ // checking.
                         System.arraycopy(content, 0, section, 0, content.length); // Merge1
                         System.arraycopy(bm, 0, section, content.length, bm.length); // Merge2
                         fos.write(section);
@@ -102,6 +102,16 @@ public class tadModification {
         System.out.println("Ret:"+Hex.encodeHexString(ret));
         return ret;
 
+    }
+
+    public static byte[] getAESCMAC(byte[] b,byte[] k) {
+        byte[] ret = new byte[0x10];
+        CipherParameters cp = new KeyParameter(k);
+        CMac mac = new CMac(new AESEngine(),128);
+        mac.init(cp);
+        mac.update(b,0,b.length);
+        mac.doFinal(ret,0);
+        return ret;
     }
 
 
