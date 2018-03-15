@@ -51,7 +51,7 @@ public class start {
             } else if (args[1].equals("r")) {
                 try {
                     fixHash(new File(default_dir + "header.bin"), new File(default_dir + "footer.bin"));
-                    signFooter();
+                    signFooter(new File("ctcert.bin"),new File(default_dir+"footer.bin"));
                     rebuildTad(args[0]);
                 } catch (Exception e) {
                     e.printStackTrace();

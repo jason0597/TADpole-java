@@ -49,16 +49,17 @@ public class tadModification {
                     content = Files.readAllBytes(f.toPath());
                     bm = generateBlockMetadata(content); // 0x0+10 = AES MAC over SHA256(SHA256 of PlainData), 0x10+10 = IV (RandGen)
                     System.arraycopy(bm, 0x10, iv, 0, iv.length); // bm -> iv
-                    System.out.println("L92IV:"+ Hex.encodeHexString(iv)); // is IV Okay? (No way to check)
+                    System.out.println("Using IV:"+ Hex.encodeHexString(iv)); // is IV Okay? (No way to check)
                     content = api.encryptMessage(content, key, iv); // Encrypt.
-                    System.out.println("Length:"+content.length); // contentLength
+                    //System.out.println("Length:"+content.length); // contentLength
                     section = new byte[content.length + bm.length]; // section is content+bm
-                    System.out.println("New Length:"+section.length);
+                    //System.out.println("New Length:"+section.length);
                     if(section.length == content.length+0x20){ // checking.
                         System.arraycopy(content, 0, section, 0, content.length); // Merge1
                         System.arraycopy(bm, 0, section, content.length, bm.length); // Merge2
                         fos.write(section);
                     }
+                    System.out.println("Done");
                 }
             }
             fos.flush();
@@ -67,13 +68,21 @@ public class tadModification {
     }
 
 
-    public static void signFooter() throws IOException {
+    public static void signFooter(File ctcert,File footer) throws IOException, NoSuchAlgorithmException, InvalidKeyException, SignatureException {
         //Process p = Runtime.getRuntime().exec("ctr-dsiwaretool.exe "+default_dir+footerName+" ctcert.bin --write");
-        ProcessBuilder pb = new ProcessBuilder("ctr-dsiwaretool.exe",""+default_dir+ "footer.bin","ctcert.bin","--write")
+        /*ProcessBuilder pb = new ProcessBuilder("ctr-dsiwaretool.exe",""+default_dir+ "footer.bin","ctcert.bin","--write")
                 .inheritIO()
                 .directory(new File(System.getProperty("user.dir")));
 
-        pb.start();
+        pb.start();*/
+        byte[] c = Files.readAllBytes(ctcert.toPath());
+        byte[] f = Files.readAllBytes(footer.toPath());
+        KeyPair kp = ctCertHandling.getKeyPair(c);
+        ctCertHandling.sign(kp,c,f);
+        try(FileOutputStream fos = new FileOutputStream(footer)) {
+            fos.write(f);
+            fos.flush();
+        }
         //System.out.println(p.getInputStream().read());
     }
 
@@ -83,9 +92,9 @@ public class tadModification {
         SecureRandom sr = SecureRandom.getInstanceStrong();
         byte[] ret = new byte[0x20];
         byte[] hash = md.digest(content);
-        System.out.println("Hash:"+Hex.encodeHexString(hash));
+        System.out.println("Hash is:"+Hex.encodeHexString(hash));
         byte[] key = api.getNormalKey(cmac_keyx,keyy);
-        System.out.println("CMACKey:"+Hex.encodeHexString(key));
+        System.out.println("Using CMAC:"+Hex.encodeHexString(key));
         // Generating CMAC here.
         CipherParameters cp = new KeyParameter(key);
         //BlockCipher aes = new AESEngine();
@@ -93,13 +102,13 @@ public class tadModification {
         mac.init(cp);
         mac.update(hash,0,hash.length);
         mac.doFinal(ret,0);
-        System.out.println(Hex.encodeHexString(ret));
+        //System.out.println(Hex.encodeHexString(ret));
         //Generate IV here
         byte[] iv = new byte[0x10];
         sr.nextBytes(iv);
         System.arraycopy(iv, 0, ret, 0x10, iv.length);
-        System.out.println("IV:"+Hex.encodeHexString(iv));
-        System.out.println("Ret:"+Hex.encodeHexString(ret));
+        //System.out.println("IV:"+Hex.encodeHexString(iv));
+        //System.out.println("Ret:"+Hex.encodeHexString(ret));
         return ret;
 
     }
@@ -133,14 +142,14 @@ public class tadModification {
         }
         //sizes[0] = 0xB34;
 
-        System.out.println(Arrays.toString(sizes)); // Debug
+        //System.out.println(Arrays.toString(sizes)); // Debug
         i = 0; // Reset Counter.
         for (String s : footer_namelist) {
             tmp = new File(default_dir + s);
             hash[i] = tmp.exists() ? Hex.encodeHexString(md.digest(Files.readAllBytes(tmp.toPath()))) : "0000000000000000000000000000000000000000000000000000000000000000";
             i++;
         }
-        System.out.println(Arrays.toString(hash));
+        //System.out.println(Arrays.toString(hash));
 
         //System.out.println(sizes);
         try(RandomAccessFile raf = new RandomAccessFile(header,"rwd")) {
