@@ -68,7 +68,7 @@ public class ctCertHandling {
         System.out.printf("Done\n");
         // Copy pubkey from ctcert -> APCert
         System.out.printf("Step2: PubKey to APCert...");
-        System.arraycopy(ctcert,0x108,footer,totalhashsize+0x3C+4,0x3C);
+        System.arraycopy(ctcert,0x108,footer,totalhashsize+0x3C+0x108,0x3C);
         System.out.printf("Done\n");
         // Sign hash at the top.
         System.out.printf("Step3: Signing Hash...\n");
