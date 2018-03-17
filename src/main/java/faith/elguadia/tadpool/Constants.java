@@ -37,15 +37,15 @@ public class Constants {
     //public static BigInteger C_bigint;
     public static BigInteger cmac_keyx;
     public static String default_dir = "decrypted_sections/";
-    public static int BM = 0x20;
-    public static int banner = 0x0;
-    public static int banner_size = 0x4000;
-    public static int header = banner + banner_size + BM;
-    public static int header_size = 0xF0;
-    public static int footer = header + header_size + BM;
-    public static int footer_size = 0x4E0;
-    public static int TMD = footer + footer_size + BM;
-    public static int TMD_SIZE = 0xB40;
+    static int BM = 0x20;
+    private static int banner = 0x0;
+    private static int banner_size = 0x4000;
+    private static int header = banner + banner_size + BM;
+    private static int header_size = 0xF0;
+    private static int footer = header + header_size + BM;
+    private static int footer_size = 0x4E0;
+    static int TMD = footer + footer_size + BM;
+    private static int TMD_SIZE = 0xB40;
     public static int SRL = TMD + TMD_SIZE + BM;
     public static int SRL_SIZE = 0x0; // Need INIT THIS PLEASE
     public static int SAV = 0x0;

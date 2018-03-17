@@ -1,9 +1,11 @@
 
 plugins {
+    id 'java'
     id 'application'
     //id 'com.gorylenko.gradle-git-properties' version '1.4.17'
-    id 'com.sedmelluq.jdaction' version '1.0.2' //check for unused RestActions
     id 'com.github.johnrengelman.shadow' version '2.0.1'
+    id 'com.github.ksoichiro.build.info' version '0.2.0'
+    id 'com.palantir.git-version' version '0.10.1'
 }
 mainClassName = "faith.elguadia.tadpool.start"
 
@@ -14,9 +16,7 @@ runShadow{
 }
 
 group 'faith.elguadia'
-version '1.0-SNAPSHOT'
-
-apply plugin: 'java'
+version gitVersion()
 
 sourceCompatibility = 1.8
 
@@ -36,6 +36,8 @@ dependencies {
     // https://mvnrepository.com/artifact/com.google.guava/guava
     compile group: 'com.google.guava', name: 'guava', version: '23.6-jre'
     // https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16
-    compile group: 'org.bouncycastle', name: 'bcprov-jdk16', version: '1.46'
+    compile group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.46'
+    // https://mvnrepository.com/artifact/org.bouncycastle/bcpkix-jdk15on
+    compile group: 'org.bouncycastle', name: 'bcpkix-jdk15on', version: '1.59'
 
 }

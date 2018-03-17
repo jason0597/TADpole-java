@@ -22,11 +22,10 @@ import java.util.Arrays;
 import static faith.elguadia.tadpool.Constants.*;
 
 public class api {
-    private final static char[] hexArray = "0123456789ABCDEF".toCharArray();
-    public static BigInteger add_128(BigInteger a,BigInteger b){
+    private static BigInteger add_128(BigInteger a, BigInteger b){
         return a.add(b).and(F128);
     }
-    public static BigInteger rol_128(BigInteger n, int shift) {
+    private static BigInteger rol_128(BigInteger n, int shift) {
         BigInteger left = n.shiftLeft(shift % 128);
         BigInteger right = n.shiftRight(128 - (shift % 128));
         return left.or(right).and(F128);
@@ -58,4 +57,8 @@ public class api {
         cipher.init(Cipher.ENCRYPT_MODE,sk,new IvParameterSpec(iv));
         return cipher.update(s);
     }
+
+
+
+
 }
