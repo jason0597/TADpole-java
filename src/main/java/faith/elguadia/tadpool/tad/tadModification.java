@@ -210,7 +210,7 @@ public class tadModification {
                 if(c == 0xB34) {
                     c = 0xB40; //Dirtyhaxx
                 }
-                content_sizelist[i] = c;
+                content_sizelist[i] = (int) c;
             }
         } catch (IOException e) {
             e.printStackTrace();
