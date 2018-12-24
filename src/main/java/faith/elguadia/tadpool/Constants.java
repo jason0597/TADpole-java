@@ -52,6 +52,6 @@ public class Constants {
     public static int SAV_SIZE = 0x0;
 
     public static String[] content_list = {"tmd", "srl.nds", "2.bin", "3.bin", "4.bin", "5.bin", "6.bin", "7.bin", "8.bin", "public.sav", "banner.sav"};
-    public static long[] content_sizelist = new long[content_list.length];
+    public static int[] content_sizelist = new int[content_list.length];
 
 }

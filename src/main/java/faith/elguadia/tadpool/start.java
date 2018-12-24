@@ -30,7 +30,12 @@ public class start {
                 File f = new File(args[0]);
                 System.out.println(f.getName());
                 File f2 = new File(Constants.default_dir);
-                if (!f2.exists()) f2.mkdir();
+                if (!f2.exists()) {
+                    if(!f2.mkdir()){
+                        System.out.println("mkdir failed. please check disk space or permission.");
+                        System.exit(1);
+                    }
+                }
                 if (!f.exists()) System.exit(1);
                 try {
                     getDump(f, 0x0, 0x4000, "banner.bin");
@@ -38,9 +43,9 @@ public class start {
                     getDump(f, 0x4130, 0x4E0, "footer.bin");
                     getContentSize(new File(Constants.default_dir + "header.bin")); // Now constant array is set
                     int off = TMD;
-                    for (long i : content_sizelist) {
+                    for (int i : content_sizelist) {
                         if (i != 0) {
-                            getDump(f, off, (int) i, content_list[c]);
+                            getDump(f, off, i, content_list[c]);
                             off += (i + BM);
                         }
                         c++;
